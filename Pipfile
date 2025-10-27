@@ -1,0 +1,10 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "data-analisis-jb"
+
+[packages]
+flask = "*"
+flask-openapi3 = { extras = ["scalar", "swagger"], version = "*" }
+
+[dev-packages]
