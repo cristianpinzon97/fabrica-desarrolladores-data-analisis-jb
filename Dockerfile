@@ -17,6 +17,7 @@ RUN pipenv install --system --deploy
 EXPOSE 5000
 
 # Define la variable de entorno para Flask
+ENV VERSION=1.0
 ENV FLASK_APP=app.py
 
 # Comando para ejecutar la app
