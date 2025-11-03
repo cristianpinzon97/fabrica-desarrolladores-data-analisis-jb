@@ -32,11 +32,7 @@ def register():
     if errors:
         raise ValidationError(errors)
 
-    user, err = register_user(username=username, password=password, email=email)
-    if err == "username_exists":
-        return jsonify({"msg": "username already exists"}), 409
-    if err == "email_exists":
-        return jsonify({"msg": "email already exists"}), 409
+    user = register_user(username=username, password=password, email=email)
     return jsonify({"id": user.id, "username": user.username}), 201
 
 
@@ -56,8 +52,6 @@ def login():
         raise ValidationError({"username/password": "required"})
 
     user = authenticate_user(username=username, password=password)
-    if user is None:
-        return jsonify({"msg": "invalid credentials"}), 401
 
     token = create_access_token(identity=user.id)
     return jsonify({"access_token": token}), 200

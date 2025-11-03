@@ -37,8 +37,6 @@ def get_task(task_id: int):
     """
     user_id = get_jwt_identity()
     task = get_task_for_user(user_id, task_id)
-    if task is None:
-        return jsonify({"msg": "task not found"}), 404
     return jsonify(task.to_dict()), 200
 
 
@@ -76,8 +74,6 @@ def update_task(task_id: int):
     user_id = get_jwt_identity()
     payload = request.get_json(silent=True) or {}
     task = get_task_for_user(user_id, task_id)
-    if task is None:
-        return jsonify({"msg": "task not found"}), 404
 
     if "title" in payload:
         title = (payload.get("title") or "").strip()
@@ -98,7 +94,5 @@ def delete_task(task_id: int):
     """
     user_id = get_jwt_identity()
     task = get_task_for_user(user_id, task_id)
-    if task is None:
-        return jsonify({"msg": "task not found"}), 404
     delete_task_cmd(task)
     return jsonify({"deleted": True, "id": task_id}), 200
