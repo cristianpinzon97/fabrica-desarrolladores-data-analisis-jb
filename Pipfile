@@ -5,6 +5,14 @@ name = "data-analisis-jb"
 
 [packages]
 flask = "*"
-flask-openapi3 = { extras = ["scalar", "swagger"], version = "*" }
+flask-jwt-extended = "*"
+flask-sqlalchemy = "*"
+sqlalchemy = "*"
+passlib = "*"
+bcrypt = "*"
+python-dotenv = "*"
+psycopg2-binary = "*"
+gunicorn = "*"
+flask-openapi3 = { extras = ["scalar", "elements", "swagger"], version = "*" }
 
 [dev-packages]
