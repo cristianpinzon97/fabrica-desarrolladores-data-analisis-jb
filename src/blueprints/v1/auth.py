@@ -3,8 +3,8 @@ from flask_jwt_extended import create_access_token
 from flask_openapi3 import APIBlueprint, Tag
 
 from src.errors.errors import ValidationError
-from src.extensions import db
-from src.models import User
+from src.commands.register_user_command import register_user
+from src.queries.authenticate_user_query import authenticate_user
 
 auth_tag = Tag(name="Auth", description="User authentication and registration")
 
@@ -13,6 +13,12 @@ api_v1_auth = APIBlueprint("auth", __name__, url_prefix="/v1/auth")
 
 @api_v1_auth.post("/register", tags=[auth_tag])
 def register():
+    """
+    Register a new user
+    ---
+    Request JSON: {"username": str, "password": str, "email": str?}
+    Returns: 201 with created user id and username, or 409 on duplicates
+    """
     payload = request.get_json(silent=True) or {}
     username = (payload.get("username") or "").strip()
     password = payload.get("password")
@@ -26,21 +32,22 @@ def register():
     if errors:
         raise ValidationError(errors)
 
-    if User.query.filter_by(username=username).first() is not None:
+    user, err = register_user(username=username, password=password, email=email)
+    if err == "username_exists":
         return jsonify({"msg": "username already exists"}), 409
-    if email and User.query.filter_by(email=email).first() is not None:
+    if err == "email_exists":
         return jsonify({"msg": "email already exists"}), 409
-
-    user = User(username=username, email=email)
-    user.set_password(password)
-    db.session.add(user)
-    db.session.commit()
-
     return jsonify({"id": user.id, "username": user.username}), 201
 
 
 @api_v1_auth.post("/login", tags=[auth_tag])
 def login():
+    """
+    Authenticate user and return JWT access token
+    ---
+    Request JSON: {"username": str, "password": str}
+    Returns: 200 with {"access_token": str} or 401 on invalid credentials
+    """
     payload = request.get_json(silent=True) or {}
     username = (payload.get("username") or "").strip()
     password = payload.get("password") or ""
@@ -48,8 +55,8 @@ def login():
     if not username or not password:
         raise ValidationError({"username/password": "required"})
 
-    user = User.query.filter_by(username=username).first()
-    if user is None or not user.verify_password(password):
+    user = authenticate_user(username=username, password=password)
+    if user is None:
         return jsonify({"msg": "invalid credentials"}), 401
 
     token = create_access_token(identity=user.id)
