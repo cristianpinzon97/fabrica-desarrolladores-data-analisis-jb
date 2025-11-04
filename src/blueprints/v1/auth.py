@@ -21,7 +21,7 @@ def register():
     """
     payload = request.get_json(silent=True) or {}
     username = (payload.get("username") or "").strip()
-    password = payload.get("password")
+    password = (payload.get("password") or "")
     email = (payload.get("email") or None)
 
     errors = {}
@@ -53,5 +53,5 @@ def login():
 
     user = authenticate_user(username=username, password=password)
 
-    token = create_access_token(identity=user.id)
+    token = create_access_token(identity=str(user.id))
     return jsonify({"access_token": token}), 200

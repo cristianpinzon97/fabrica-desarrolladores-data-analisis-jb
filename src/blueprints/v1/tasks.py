@@ -22,7 +22,7 @@ def list_tasks():
     ---
     Returns: 200 with a list of tasks belonging to the requester
     """
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     tasks = list_tasks_for_user(user_id)
     return jsonify([t.to_dict() for t in tasks]), 200
 
@@ -35,7 +35,7 @@ def get_task(task_id: int):
     ---
     Returns: 200 with the task or 404 if not found
     """
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     task = get_task_for_user(user_id, task_id)
     return jsonify(task.to_dict()), 200
 
@@ -49,7 +49,7 @@ def create_task():
     Request JSON: {"title": str, "description": str?, "completed": bool?}
     Returns: 201 with created task
     """
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     payload = request.get_json(silent=True) or {}
     title = (payload.get("title") or "").strip()
     description = payload.get("description")
@@ -71,7 +71,7 @@ def update_task(task_id: int):
     Request JSON: {"title"?: str, "description"?: str, "completed"?: bool}
     Returns: 200 with updated task or 404 if not found
     """
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     payload = request.get_json(silent=True) or {}
     task = get_task_for_user(user_id, task_id)
 

@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "b32da64c3476c09b6c0edf10703689dbceb5bdebfb62933819564123caf5ed59"
+            "sha256": "cc0bc2d5c6586bb68140c83858091aab11912335f9e4bfd5d8b582aff126ea1a"
         },
         "pipfile-spec": 6,
         "requires": {},
@@ -48,6 +48,7 @@
             "markers": "python_version >= '3.9'",
             "version": "==3.1.2"
         },
+        "flask-bcrypt": "*",
         "flask-jwt-extended": "*",
         "flask-openapi3": {
             "extras": [

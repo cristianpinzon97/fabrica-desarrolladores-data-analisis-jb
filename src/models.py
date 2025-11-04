@@ -1,9 +1,9 @@
 from datetime import datetime
+from hashlib import sha256
 
-from passlib.hash import bcrypt
 from sqlalchemy.sql import func
 
-from src.extensions import db
+from src.extensions import db, bcrypt as bcrypt_ext
 
 
 class User(db.Model):
@@ -18,10 +18,12 @@ class User(db.Model):
     tasks = db.relationship("Task", backref="user", lazy=True)
 
     def set_password(self, password: str) -> None:
-        self.password_hash = bcrypt.hash(password)
+        digest = sha256((password or "").encode("utf-8")).hexdigest()
+        self.password_hash = bcrypt_ext.generate_password_hash(digest).decode("utf-8")
 
     def verify_password(self, password: str) -> bool:
-        return bcrypt.verify(password, self.password_hash)
+        digest = sha256((password or "").encode("utf-8")).hexdigest()
+        return bcrypt_ext.check_password_hash(self.password_hash, digest)
 
 
 class Task(db.Model):

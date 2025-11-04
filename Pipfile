@@ -13,6 +13,7 @@ bcrypt = "*"
 python-dotenv = "*"
 psycopg2-binary = "*"
 gunicorn = "*"
-flask-openapi3 = { extras = ["scalar", "elements", "swagger"], version = "*" }
+flask-bcrypt = "*"
+flask-openapi3 = {extras = ["elements", "swagger", "scalar"], version = "*"}
 
 [dev-packages]
