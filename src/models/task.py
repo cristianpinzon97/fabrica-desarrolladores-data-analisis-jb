@@ -2,7 +2,7 @@ from datetime import datetime
 
 from sqlalchemy.sql import func
 
-from src.extensions import db
+from src.config.extensions import db
 
 
 class Task(db.Model):

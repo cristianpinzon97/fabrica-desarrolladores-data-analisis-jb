@@ -1,6 +1,6 @@
-from typing import Optional, Dict, Any
+from typing import Dict, Any
 
-from src.extensions import db
+from src.config.extensions import db
 from src.models.task import Task
 
 

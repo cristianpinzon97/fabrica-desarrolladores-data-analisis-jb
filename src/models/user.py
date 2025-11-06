@@ -2,7 +2,7 @@ from hashlib import sha256
 
 from sqlalchemy.sql import func
 
-from src.extensions import db, bcrypt as bcrypt_ext
+from src.config.extensions import db, bcrypt as bcrypt_ext
 
 
 class User(db.Model):

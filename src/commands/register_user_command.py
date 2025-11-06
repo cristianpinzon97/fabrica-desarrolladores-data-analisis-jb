@@ -1,6 +1,6 @@
 from typing import Optional
 
-from src.extensions import db
+from src.config.extensions import db
 from src.errors.errors import ConflictError
 from src.models.user import User
 

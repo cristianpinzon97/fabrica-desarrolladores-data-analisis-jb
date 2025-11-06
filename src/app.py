@@ -5,7 +5,7 @@ from src.blueprints.v1.healt_check import api_v1_health
 from src.blueprints.v1.tasks import api_v1_tasks
 from src.config import BaseConfig
 from src.errors.handlers import register_error_handlers
-from src.extensions import db, jwt, bcrypt
+from src.config.extensions import db, jwt, bcrypt
 
 info = Info(title="Fabrica Desarrolladores API", version="1.0",
             description="API documentation with OpenAPI 3, v1 endpoints")
