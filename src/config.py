@@ -9,5 +9,5 @@ def _default_sqlite_url() -> str:
 class BaseConfig:
     SECRET_KEY = os.getenv("SECRET_KEY", "change-me")
     JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY", "change-me-too")
-    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL", _default_sqlite_url())
+    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL", _default_sqlite_url()).replace("postgres://", "postgresql://")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
