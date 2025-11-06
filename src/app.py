@@ -3,7 +3,7 @@ from flask_openapi3 import OpenAPI, Info
 from src.blueprints.v1.auth import api_v1_auth
 from src.blueprints.v1.healt_check import api_v1_health
 from src.blueprints.v1.tasks import api_v1_tasks
-from src.config import BaseConfig
+from src.config.base_config import BaseConfig
 from src.errors.handlers import register_error_handlers
 from src.config.extensions import db, jwt, bcrypt
 
