@@ -16,8 +16,6 @@ gunicorn = "*"
 flask-bcrypt = "*"
 flask-openapi3 = { extras = ["elements", "swagger", "scalar"], version = "*" }
 pydantic = { extras = ["email"], version = "*" }
-pytest = "*"
-pytest-cov = "*"
 
 [dev-packages]
 pytest = "*"
