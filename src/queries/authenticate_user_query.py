@@ -1,5 +1,5 @@
 from src.errors.errors import UnauthorizedError
-from src.models import User
+from src.models.user import User
 
 
 def authenticate_user(username: str, password: str) -> User:

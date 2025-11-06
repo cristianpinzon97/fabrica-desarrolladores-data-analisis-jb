@@ -1,5 +1,5 @@
 from src.errors.errors import NotFoundError
-from src.models import Task
+from src.models.task import Task
 
 
 def get_task_for_user(user_id: int, task_id: int) -> Task:

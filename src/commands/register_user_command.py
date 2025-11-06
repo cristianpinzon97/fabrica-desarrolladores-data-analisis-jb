@@ -2,7 +2,7 @@ from typing import Optional
 
 from src.extensions import db
 from src.errors.errors import ConflictError
-from src.models import User
+from src.models.user import User
 
 
 def register_user(username: str, password: str, email: Optional[str] = None) -> User:

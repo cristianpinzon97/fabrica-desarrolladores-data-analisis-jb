@@ -1,6 +1,6 @@
 from typing import List
 
-from src.models import Task
+from src.models.task import Task
 
 
 def list_tasks_for_user(user_id: int) -> List[Task]:

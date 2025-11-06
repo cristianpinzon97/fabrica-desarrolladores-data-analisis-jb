@@ -1,5 +1,5 @@
 from src.extensions import db
-from src.models import Task
+from src.models.task import Task
 
 
 def create_task(user_id: int, title: str, description=None, completed: bool = False) -> Task:

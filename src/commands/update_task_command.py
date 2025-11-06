@@ -1,7 +1,7 @@
 from typing import Optional, Dict, Any
 
 from src.extensions import db
-from src.models import Task
+from src.models.task import Task
 
 
 def update_task(task: Task, updates: Dict[str, Any]) -> Task:

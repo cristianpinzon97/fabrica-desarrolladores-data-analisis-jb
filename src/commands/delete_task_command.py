@@ -1,5 +1,5 @@
 from src.extensions import db
-from src.models import Task
+from src.models.task import Task
 
 
 def delete_task(task: Task) -> None:
