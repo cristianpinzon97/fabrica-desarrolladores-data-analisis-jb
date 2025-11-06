@@ -32,8 +32,6 @@ class Path(BaseModel):
 def list_tasks():
     """
     List tasks for the authenticated user
-    ---
-    Returns: 200 with a list of tasks belonging to the requester
     """
     user_id = int(get_jwt_identity())
     tasks = list_tasks_for_user(user_id)
@@ -45,8 +43,6 @@ def list_tasks():
 def get_task(path: Path):
     """
     Get a single task by id for the authenticated user
-    ---
-    Returns: 200 with the task or 404 if not found
     """
     user_id = int(get_jwt_identity())
     task = get_task_for_user(user_id, path.tid)
@@ -58,9 +54,6 @@ def get_task(path: Path):
 def create_task(body: TaskBody):
     """
     Create a new task for the authenticated user
-    ---
-    Request JSON: TaskBody
-    Returns: 201 with created task
     """
     user_id = int(get_jwt_identity())
     task = create_task_cmd(user_id=user_id, title=body.title, description=body.description, completed=bool(body.completed))
@@ -72,9 +65,6 @@ def create_task(body: TaskBody):
 def update_task(path: Path, body: TaskUpdateBody):
     """
     Update fields of a task for the authenticated user
-    ---
-    Request JSON: TaskUpdateBody
-    Returns: 200 with updated task or 404 if not found
     """
     user_id = int(get_jwt_identity())
     task = get_task_for_user(user_id, path.tid)
@@ -89,8 +79,6 @@ def update_task(path: Path, body: TaskUpdateBody):
 def delete_task(path: Path):
     """
     Delete a task for the authenticated user
-    ---
-    Returns: 200 with deletion confirmation or 404 if not found
     """
     user_id = int(get_jwt_identity())
     task = get_task_for_user(user_id, path.tid)
