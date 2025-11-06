@@ -1,17 +1,22 @@
 from flask import request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from flask_openapi3 import APIBlueprint, Tag
+from pydantic import BaseModel, Field
 
-from src.errors.errors import ValidationError
-from src.queries.list_tasks_query import list_tasks_for_user
-from src.queries.get_task_query import get_task_for_user
 from src.commands.create_task_command import create_task as create_task_cmd
-from src.commands.update_task_command import update_task as update_task_cmd
 from src.commands.delete_task_command import delete_task as delete_task_cmd
+from src.commands.update_task_command import update_task as update_task_cmd
+from src.errors.errors import ValidationError
+from src.queries.get_task_query import get_task_for_user
+from src.queries.list_tasks_query import list_tasks_for_user
 
 tasks_tag = Tag(name="Tasks", description="CRUD operations for tasks")
 
 api_v1_tasks = APIBlueprint("tasks", __name__, url_prefix="/v1")
+
+
+class Path(BaseModel):
+    tid: int = Field(..., description='task id')
 
 
 @api_v1_tasks.get("/tareas", tags=[tasks_tag])
@@ -27,16 +32,16 @@ def list_tasks():
     return jsonify([t.to_dict() for t in tasks]), 200
 
 
-@api_v1_tasks.get("/tareas/<int:task_id>", tags=[tasks_tag])
+@api_v1_tasks.get("/tareas/<int:tid>", tags=[tasks_tag])
 @jwt_required()
-def get_task(task_id: int):
+def get_task(path: Path):
     """
     Get a single task by id for the authenticated user
     ---
     Returns: 200 with the task or 404 if not found
     """
     user_id = int(get_jwt_identity())
-    task = get_task_for_user(user_id, task_id)
+    task = get_task_for_user(user_id, path.tid)
     return jsonify(task.to_dict()), 200
 
 
@@ -62,9 +67,9 @@ def create_task():
     return jsonify(task.to_dict()), 201
 
 
-@api_v1_tasks.put("/tareas/<int:task_id>", tags=[tasks_tag])
+@api_v1_tasks.put("/tareas/<int:tid>", tags=[tasks_tag])
 @jwt_required()
-def update_task(task_id: int):
+def update_task(path: Path):
     """
     Update fields of a task for the authenticated user
     ---
@@ -73,7 +78,7 @@ def update_task(task_id: int):
     """
     user_id = int(get_jwt_identity())
     payload = request.get_json(silent=True) or {}
-    task = get_task_for_user(user_id, task_id)
+    task = get_task_for_user(user_id, path.tid)
 
     if "title" in payload:
         title = (payload.get("title") or "").strip()
@@ -84,15 +89,15 @@ def update_task(task_id: int):
     return jsonify(updated.to_dict()), 200
 
 
-@api_v1_tasks.delete("/tareas/<int:task_id>", tags=[tasks_tag])
+@api_v1_tasks.delete("/tareas/<int:tid>", tags=[tasks_tag])
 @jwt_required()
-def delete_task(task_id: int):
+def delete_task(path: Path):
     """
     Delete a task for the authenticated user
     ---
     Returns: 200 with deletion confirmation or 404 if not found
     """
     user_id = get_jwt_identity()
-    task = get_task_for_user(user_id, task_id)
+    task = get_task_for_user(user_id, path.tid)
     delete_task_cmd(task)
-    return jsonify({"deleted": True, "id": task_id}), 200
+    return jsonify({"deleted": True, "id": path.tid}), 200
