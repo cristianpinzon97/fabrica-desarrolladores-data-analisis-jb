@@ -9,7 +9,15 @@ from src.config.extensions import db, jwt, bcrypt
 
 info = Info(title="Fabrica Desarrolladores API", version="1.0",
             description="API documentation with OpenAPI 3, v1 endpoints")
-app = OpenAPI(__name__, info=info)
+
+jwtScheme = {
+  "type": "http",
+  "scheme": "bearer",
+  "bearerFormat": "JWT"
+}
+security_schemes = {"jwt": jwtScheme}
+
+app = OpenAPI(__name__, info=info, security_schemes=security_schemes)
 
 # App configuration
 app.config.from_object(BaseConfig)

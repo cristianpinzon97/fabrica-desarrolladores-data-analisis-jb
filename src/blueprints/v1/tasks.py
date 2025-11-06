@@ -27,7 +27,7 @@ class Path(BaseModel):
     tid: int = Field(..., description='task id')
 
 
-@api_v1_tasks.get("/tareas", tags=[tasks_tag], responses={200: ListTasksResponse, 400: ErrorResponse})
+@api_v1_tasks.get("/tareas", tags=[tasks_tag], responses={200: ListTasksResponse, 400: ErrorResponse}, security=[{"jwt": []}])
 @jwt_required()
 def list_tasks():
     """
@@ -38,7 +38,7 @@ def list_tasks():
     return ListTasksResponse(code=0, message="OK", data=[t.to_dict() for t in tasks]).model_dump(), 200
 
 
-@api_v1_tasks.get("/tareas/<int:tid>", tags=[tasks_tag], responses={200: TaskResponse, 404: ErrorResponse})
+@api_v1_tasks.get("/tareas/<int:tid>", tags=[tasks_tag], responses={200: TaskResponse, 404: ErrorResponse}, security=[{"jwt": []}])
 @jwt_required()
 def get_task(path: Path):
     """
@@ -49,7 +49,7 @@ def get_task(path: Path):
     return TaskResponse(**task.to_dict()).model_dump(), 200
 
 
-@api_v1_tasks.post("/tareas", tags=[tasks_tag], responses={201: CreateTaskResponse, 400: ErrorResponse})
+@api_v1_tasks.post("/tareas", tags=[tasks_tag], responses={201: CreateTaskResponse, 400: ErrorResponse}, security=[{"jwt": []}])
 @jwt_required()
 def create_task(body: TaskBody):
     """
@@ -60,7 +60,7 @@ def create_task(body: TaskBody):
     return CreateTaskResponse(code=0, message="Task created", data=TaskResponse(**task.to_dict())).model_dump(), 201
 
 
-@api_v1_tasks.put("/tareas/<int:tid>", tags=[tasks_tag], responses={200: UpdateTaskResponse, 400: ErrorResponse, 404: ErrorResponse})
+@api_v1_tasks.put("/tareas/<int:tid>", tags=[tasks_tag], responses={200: UpdateTaskResponse, 400: ErrorResponse, 404: ErrorResponse}, security=[{"jwt": []}])
 @jwt_required()
 def update_task(path: Path, body: TaskUpdateBody):
     """
@@ -74,7 +74,7 @@ def update_task(path: Path, body: TaskUpdateBody):
     return UpdateTaskResponse(code=0, message="Task updated", data=TaskResponse(**updated.to_dict())).model_dump(), 200
 
 
-@api_v1_tasks.delete("/tareas/<int:tid>", tags=[tasks_tag], responses={200: DeleteTaskResponse, 404: ErrorResponse})
+@api_v1_tasks.delete("/tareas/<int:tid>", tags=[tasks_tag], responses={200: DeleteTaskResponse, 404: ErrorResponse}, security=[{"jwt": []}])
 @jwt_required()
 def delete_task(path: Path):
     """
