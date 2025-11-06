@@ -1,5 +1,9 @@
 # Fabrica Desarrolladores — Tasks API
 
+[![Heroku](https://img.shields.io/badge/Deploy-Heroku-430098?logo=heroku)](https://fabrica-desarrolladores-3f0f43e8d854.herokuapp.com/)
+
+Demo en Heroku: https://fabrica-desarrolladores-3f0f43e8d854.herokuapp.com/openapi/scalar
+
 A small REST API for user registration, authentication (JWT) and task management (CRUD). Built with Flask, Flask-OpenAPI3, SQLAlchemy and Pydantic schemas for request/response validation and OpenAPI documentation.
 
 This repository contains a minimal, well-structured example of a service that follows a clean separation between controllers, use-cases (commands/queries), models and error handling.
@@ -149,4 +153,3 @@ License
 
 Contact
 - If you want improvements (tests, migrations, CI, docker-compose, deployment help), tell me what you'd like and I can implement them.
-
